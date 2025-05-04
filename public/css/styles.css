@@ -1,6 +1,157 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap');
+/* styles.css */
+:root {
+  --primary: #000000;
+  --secondary: #139fd1;
+  --dark: rgb(16, 19, 27);
+  --light: #fff;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--dark);
+}
+
+/* Header */
+#top-header {
+  color: var(--dark);
+  padding: 10px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-link {
+  color: var(--dark);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* Nav */
+nav {
+  background-color: var(--dark);
+  color: var(--light);
+  padding: 10px;
+}
+
+nav a {
+  color: var(--light);
+  text-decoration: none;
+  padding: 10px;
+}
+
+nav a:hover {
+  background-color: var(--secondary);
+}
+
+/* Main */
+h2 {
+  color: var(--dark);
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-family: serif;
+}
+/* Hero */
+.hero-text {
+  color: var(--secondary);
+  text-align: left;
+  position: absolute;
+  max-width: 125px;
+  max-height: 300px;
+  top: 0px;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.85);
+  width: 100%;
+}
+
+.hero-text p {
+  margin: 2px;
+  text-align: left;
+}
+
+h3 {
+  margin: 5px 0;
+  text-align: left;
+  font-family: serif;
+}
+
+.hero-text button {
+  background-color: var(--secondary);
+  color: var(--dark);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.hero img {
+  width: 98%;
+  height: auto;
+}
+.hero {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+/* Reviews */
+.reviews li {
+  margin: 10px 0;
+}
+
+/* Upgrades */
+.upgrades {
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  width: 100%;
+}
+.upgrade-pic {
+  background-color: var(--secondary);
+  border: #000000 1px solid;
+  position: relative;
+  width: 200px;
+  height: 125px;
+  overflow: hidden;
+  text-align: center;
+  margin: 0.5rem;
+}
+
+.upgrade-pic img {
+  width: 50%;
+  height: auto;
+  margin: 0.5rem;
+}
+
+/* Desktop */
+@media (min-width: 570px) {
+  nav {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+  body {
+    max-width: 85%;
+    border: var(--secondary) solid 5px;
+    border-radius: 10px;
+  }
+  #delorean-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1.5fr 0.5fr;
+    width: 100%;
+  }
+  .reviews {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+  .upgrades {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
 }
