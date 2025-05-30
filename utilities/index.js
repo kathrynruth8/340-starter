@@ -84,4 +84,33 @@ Util.buildClassificationGrid = async function (data) {
 Util.handleErrors = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
+/* **************************************
+ * Build the single inventory view HTML
+ * ************************************ */
+Util.buildDetailView = function (vehicle) {
+  if (!vehicle) return '<p>Vehicle not found.</p>';
+  const price = Number(vehicle.inv_price).toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  const miles = Number(vehicle.inv_miles).toLocaleString('en-US');
+  const image = vehicle.inv_image;
+
+  return `
+  <div class="vehicle-detail">
+    <div class="vehicle-image">
+    <img src="${image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+
+    </div>
+    <div class="vehicle-info">
+      <h2>${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h2>
+      <p><strong>Price:</strong> ${price}</p>
+      <p><strong>Miles:</strong> ${miles} miles</p>
+      <p><strong>Description:</strong> ${vehicle.inv_description}</p>
+      <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+    </div>
+  </div>
+`;
+};
+
 module.exports = Util;

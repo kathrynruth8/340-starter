@@ -127,6 +127,20 @@ h3 {
   margin: 0.5rem;
 }
 
+/* Inventory View */
+.vehicle-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+}
+
+.vehicle-detail img {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+}
+
 /* Desktop */
 @media (min-width: 570px) {
   nav {
@@ -153,5 +167,9 @@ h3 {
   .upgrades {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
+  }
+  .vehicle-detail {
+    flex-direction: row;
+    align-items: flex-start;
   }
 }
