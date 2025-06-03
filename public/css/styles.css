@@ -141,6 +141,63 @@ h3 {
   max-width: 500px;
 }
 
+/* Account View */
+.login-container {
+  background-color: #2c3e50;
+  padding: 30px 40px;
+  border-radius: 10px;
+  width: 300px;
+  margin: 100px auto;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.login-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.login-container input[type='text'],
+.login-container input[type='email'],
+.login-container input[type='password'] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.login-container button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  color: #2c3e50;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #ecf0f1;
+}
+
+.login-container p {
+  margin-top: 15px;
+  text-align: center;
+  color: white;
+}
+
+.login-container a {
+  color: white;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
+
 /* Desktop */
 @media (min-width: 570px) {
   nav {
