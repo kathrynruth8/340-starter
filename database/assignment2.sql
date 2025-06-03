@@ -29,8 +29,8 @@ SELECT i.inv_make, i.inv_model, c.classification_name
 -- 6. Update all records in the inventory table to add "/vehicles" to the middle of the file path in the inv_image and inv_thumbnail columns using a single query. 
 UPDATE inventory
 SET
-  inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
-  inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
+  inv_image = REPLACE(inv_image, '/images/', '/images/vehicles'),
+  inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles');
 
 -- 7. When done with the six queries, copy and paste queries 4 and 6 from the assignment 2 file to the 
 -- database rebuild file, at the bottom of that file (this is the file that you began in the Team Activity 

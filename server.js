@@ -12,6 +12,7 @@ const env = require('dotenv').config();
 const app = express();
 const utilities = require('./utilities');
 const static = require('./routes/static');
+const bodyParser = require('body-parser');
 
 // Routes/controllers
 const baseController = require('./controllers/baseController');
@@ -37,6 +38,9 @@ app.use(
     name: 'sessionId',
   })
 );
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 // Express Messages Middleware
 app.use(require('connect-flash')());
