@@ -6,22 +6,15 @@ const Util = {};
  ************************** */
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications();
-  let list = '<ul>';
-  list += '<li><a href="/" title="Home page">Home</a></li>';
+  let nav = '<nav class="nav-bar">';
+
+  nav += '<a href=" /">Home</a>';
+
   data.rows.forEach((row) => {
-    list += '<li>';
-    list +=
-      '<a href="/inv/type/' +
-      row.classification_id +
-      '" title="See our inventory of ' +
-      row.classification_name +
-      ' vehicles">' +
-      row.classification_name +
-      '</a>';
-    list += '</li>';
+    nav += `<a href="/inv/type/${row.classification_id}" title="See our inventory of ${row.classification_name} vehicles">${row.classification_name}</a>`;
   });
-  list += '</ul>';
-  return list;
+  nav += '</nav>';
+  return nav;
 };
 /* **************************************
  * Build the classification view HTML
