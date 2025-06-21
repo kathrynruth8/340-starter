@@ -13,6 +13,7 @@ const app = express();
 const utilities = require('./utilities');
 const static = require('./routes/static');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 // Routes/controllers
 const baseController = require('./controllers/baseController');
@@ -41,6 +42,7 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser());
 
 // Express Messages Middleware
 app.use(require('connect-flash')());
