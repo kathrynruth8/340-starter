@@ -37,11 +37,6 @@ invCont.buildDetailView = async function (req, res, next) {
     });
   }
 
-  // ✅ Fix the image path (avoid double /vehicles)
-  if (data.inv_image && data.inv_image.startsWith('vehicles/')) {
-    data.inv_image = `/images/${data.inv_image}`;
-  }
-
   const vehicleHtml = utilities.buildDetailView(data);
   const title = `${data.inv_make} ${data.inv_model}`;
 
@@ -50,6 +45,23 @@ invCont.buildDetailView = async function (req, res, next) {
     nav,
     vehicleHtml,
   });
+};
+
+// Show inventory management view
+invCont.buildManagement = async function (req, res, next) {
+  let nav = await utilities.getNav();
+  res.render('./inventory/management', {
+    title: 'Inventory Management',
+    message: null, // flash message support
+  });
+};
+
+invCont.buildAddClassification = (req, res) => {
+  res.send('This will be the add classification view'); // Task 2 placeholder
+};
+
+invCont.buildAddInventory = (req, res) => {
+  res.send('This will be the add inventory view'); // Task 3 placeholder
 };
 
 module.exports = invCont;

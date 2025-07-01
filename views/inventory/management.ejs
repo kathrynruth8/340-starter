@@ -1,0 +1,18 @@
+<%- include('../partials/header') %> <%- include('../partials/nav') %>
+
+<main>
+  <h1>Inventory Management</h1>
+  <p>Welcome to the inventory management dashboard.</p>
+
+  <!-- Display flash message -->
+  <% if (message) { %>
+  <div class="flash-message"><%= message %></div>
+  <% } %>
+
+  <ul>
+    <li><a href="/inv/add-classification">Add New Classification</a></li>
+    <li><a href="/inv/add-inventory">Add New Inventory</a></li>
+  </ul>
+</main>
+
+<%- include('../partials/footer') %>
