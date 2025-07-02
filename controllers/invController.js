@@ -48,12 +48,19 @@ invCont.buildDetailView = async function (req, res, next) {
 };
 
 // Show inventory management view
-invCont.buildManagement = async function (req, res, next) {
-  let nav = await utilities.getNav();
-  res.render('./inventory/management', {
-    title: 'Inventory Management',
-    message: null, // flash message support
-  });
+invCont.buildManagement = async (req, res, next) => {
+  try {
+    const nav = await utilities.getNav(); // ✅ GET NAVIGATION DATA
+
+    res.render('inventory/management', {
+      title: 'Inventory Management',
+      message: req.flash('message'),
+      nav, // ✅ PASS IT IN
+    });
+  } catch (err) {
+    console.error('>>> Error in buildManagement:', err);
+    next(err);
+  }
 };
 
 invCont.buildAddClassification = (req, res) => {

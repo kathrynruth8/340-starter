@@ -4,8 +4,12 @@ const router = new express.Router();
 const invController = require('../controllers/invController');
 const utilities = require('../utilities');
 
-// Route to inventory management view
-router.get('/', utilities.handleErrors(invController.buildManagement));
+// // Route to inventory management view
+// router.get('/', utilities.handleErrors(invController.buildManagement));
+
+router.get('/', (req, res, next) => {
+  invController.buildManagement(req, res, next);
+});
 
 // Route to build inventory by classification view
 router.get(
