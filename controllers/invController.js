@@ -63,8 +63,38 @@ invCont.buildManagement = async (req, res, next) => {
   }
 };
 
-invCont.buildAddClassification = (req, res) => {
-  res.send('This will be the add classification view'); // Task 2 placeholder
+invCont.buildAddClassification = async (req, res) => {
+  const nav = await utilities.getNav();
+  res.render('inventory/add-classification', {
+    title: 'Add Classification',
+    nav,
+    message: null,
+    errors: null,
+  });
+};
+
+invCont.addClassification = async (req, res) => {
+  const { classification_name } = req.body;
+
+  const addResult = await invModel.addClassification(classification_name);
+
+  if (addResult) {
+    req.flash('message', `${classification_name} added successfully.`);
+    const nav = await utilities.getNav(); // Rebuild nav with new item
+    res.render('inventory/management', {
+      title: 'Inventory Management',
+      nav,
+      message: req.flash('message'),
+    });
+  } else {
+    const nav = await utilities.getNav();
+    res.render('inventory/add-classification', {
+      title: 'Add Classification',
+      nav,
+      message: 'Sorry, the classification could not be added.',
+      errors: null,
+    });
+  }
 };
 
 invCont.buildAddInventory = (req, res) => {
