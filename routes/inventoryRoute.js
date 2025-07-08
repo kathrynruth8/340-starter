@@ -3,7 +3,8 @@ const express = require('express');
 const router = new express.Router();
 const invController = require('../controllers/invController');
 const utilities = require('../utilities');
-const regValidate = require('../utilities/classification-validation');
+const classValidate = require('../utilities/classification-validation');
+const invValidate = require('../utilities/inventory-validation');
 
 // // Route to inventory management view
 router.get('/', (req, res, next) => {
@@ -21,10 +22,6 @@ router.get(
   utilities.handleErrors(invController.buildDetailView)
 );
 
-// Routes for links (Tasks 2 & 3)
-router.get('/add-classification', invController.buildAddClassification); // Task 2
-router.get('/add-inventory', invController.buildAddInventory); // Task 3
-
 // TASK 2
 // Show form
 router.get(
@@ -35,9 +32,22 @@ router.get(
 // Handle form submission
 router.post(
   '/add-classification',
-  regValidate.classificationRules(),
-  regValidate.checkClassificationData,
+  classValidate.classificationRules(),
+  classValidate.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
+);
+
+// TASK 3
+router.get(
+  '/add-inventory',
+  utilities.handleErrors(invController.buildAddInventory)
+);
+
+router.post(
+  '/add-inventory',
+  invValidate.inventoryRules(),
+  invValidate.checkInventoryData,
+  utilities.handleErrors(invController.addInventory)
 );
 
 module.exports = router;

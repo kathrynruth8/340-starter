@@ -97,8 +97,76 @@ invCont.addClassification = async (req, res) => {
   }
 };
 
-invCont.buildAddInventory = (req, res) => {
-  res.send('This will be the add inventory view'); // Task 3 placeholder
+invCont.buildAddInventory = async (req, res) => {
+  const nav = await utilities.getNav();
+  const classificationList = await utilities.buildClassificationList();
+  res.render('inventory/add-inventory', {
+    title: 'Add Inventory',
+    nav,
+    classificationList,
+    message: null,
+    errors: null,
+    inv_make: '',
+    inv_model: '',
+    inv_year: '',
+    inv_description: '',
+    inv_image: '/images/vehicles/no-image.png',
+    inv_thumbnail: '/images/vehicles/no-image-tn.png',
+    inv_price: '',
+    inv_miles: '',
+    inv_color: '',
+  });
+};
+
+invCont.addInventory = async (req, res) => {
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+  } = req.body;
+
+  const insertResult = await invModel.addInventory({
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+  });
+
+  if (insertResult) {
+    req.flash('message', 'Vehicle successfully added.');
+    const nav = await utilities.getNav();
+    res.render('inventory/management', {
+      title: 'Inventory Management',
+      nav,
+      message: req.flash('message'),
+    });
+  } else {
+    const nav = await utilities.getNav();
+    const classificationList = await utilities.buildClassificationList(
+      classification_id
+    );
+    res.render('inventory/add-inventory', {
+      title: 'Add Inventory',
+      nav,
+      classificationList,
+      message: 'Sorry, the inventory could not be added.',
+      errors: null,
+      ...req.body,
+    });
+  }
 };
 
 module.exports = invCont;
