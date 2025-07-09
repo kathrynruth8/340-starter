@@ -29,6 +29,23 @@ async function buildRegister(req, res, next) {
 }
 
 /* ****************************************
+ *  Deliver management view
+ * *************************************** */
+const buildAccountManagement = async (req, res) => {
+  try {
+    let nav = await utilities.getNav();
+    res.render('account/management', {
+      title: 'Account Management',
+      nav,
+      errors: null,
+    });
+  } catch (err) {
+    console.error('Error loading account management view:', err);
+    res.status(500).send('Server error');
+  }
+};
+
+/* ****************************************
  *  Process Registration
  * *************************************** */
 async function registerAccount(req, res) {
@@ -116,12 +133,10 @@ async function accountLogin(req, res) {
           maxAge: 3600 * 1000,
         });
       }
+      req.flash('notice', 'You are logged in.');
       return res.redirect('/account/');
     } else {
-      req.flash(
-        'message notice',
-        'Please check your credentials and try again.'
-      );
+      req.flash('notice', 'Please check your credentials and try again.');
       res.status(400).render('account/login', {
         title: 'Login',
         nav,
@@ -134,4 +149,10 @@ async function accountLogin(req, res) {
   }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin };
+module.exports = {
+  buildLogin,
+  buildRegister,
+  buildAccountManagement,
+  registerAccount,
+  accountLogin,
+};

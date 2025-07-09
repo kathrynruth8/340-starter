@@ -5,6 +5,9 @@ const utilities = require('../utilities');
 const accountController = require('../controllers/accountController');
 const accValidate = require('../utilities/account-validation');
 
+// Default logged-in route
+router.get('/', accountController.buildAccountManagement);
+
 // Route to build account view
 router.get('/login', utilities.handleErrors(accountController.buildLogin));
 // Registration view
