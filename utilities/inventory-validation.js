@@ -39,4 +39,47 @@ const checkInventoryData = async (req, res, next) => {
   next();
 };
 
-module.exports = { inventoryRules, checkInventoryData };
+const checkUpdateData = async (req, res, next) => {
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body;
+
+  const errors = validationResult(req);
+  const classificationList = await utilities.buildClassificationList(
+    req.body.classification_id
+  );
+  const nav = await utilities.getNav();
+
+  if (!errors.isEmpty()) {
+    return res.render('inventory/edit-inventory', {
+      errors,
+      title: 'Edit ' + inv_make + ' ' + inv_model,
+      dropDown,
+      nav,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classification_id,
+      inv_id,
+    });
+  }
+  next();
+};
+
+module.exports = { inventoryRules, checkInventoryData, checkUpdateData };

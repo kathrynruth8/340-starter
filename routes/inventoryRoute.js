@@ -61,6 +61,13 @@ router.get(
   utilities.handleErrors(invController.editInventoryView)
 );
 
+router.post(
+  '/update/',
+  invValidate.inventoryRules(),
+  invValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+);
+
 // Final Project Enhancement
 router.get(
   '/delete-classification/:classificationId',

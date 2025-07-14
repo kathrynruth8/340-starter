@@ -124,6 +124,43 @@ async function deleteClassificationById(id) {
   }
 }
 
+async function updateInventory(data) {
+  try {
+    const sql = `UPDATE inventory 
+    SET inv_make = $1, 
+        inv_model = $2, 
+        inv_description = $3, 
+        inv_image = $4, 
+        inv_thumbnail = $5, 
+        inv_price = $6, 
+        inv_year = $7, 
+        inv_miles = $8, 
+        inv_color = $9, 
+        classification_id = $10 
+    WHERE inv_id = $11 
+    RETURNING *;`;
+
+    const values = [
+      data.inv_make,
+      data.inv_model,
+      data.inv_description,
+      data.inv_image,
+      data.inv_thumbnail,
+      data.inv_price,
+      data.inv_year,
+      data.inv_miles,
+      data.inv_color,
+      data.classification_id,
+      data.inv_id,
+    ];
+    const result = await pool.query(sql, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Inventory update error:', error);
+    return null;
+  }
+}
+
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
@@ -133,4 +170,5 @@ module.exports = {
   addInventory,
   getClassificationById,
   deleteClassificationById,
+  updateInventory,
 };

@@ -10,7 +10,7 @@
 </ul>
 <% } %>
 
-<form id="editInventoryForm" action="/inv/update" method="post">
+<form id="updateForm" action="/inv/update" method="post">
   <label for="classificationList">Classification:</label>
   <%- classificationSelect %>
 
@@ -91,6 +91,7 @@
     required
     value="<%= inv_color || '' %>"
   />
-
-  <button type="submit">Edit Vehicle</button>
+  <button type="submit" id="submitBtn" disabled>Edit Vehicle</button>
+  <input type="hidden" name="inv_id" value="<%= inv_id %>" />
+  <script src="/js/inv-update.js"></script>
 </form>
