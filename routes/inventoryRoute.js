@@ -50,6 +50,13 @@ router.post(
   utilities.handleErrors(invController.addInventory)
 );
 
+// Prepare W09
+router.get(
+  '/getInventory/:classification_id',
+  utilities.handleErrors(invController.getInventoryJSON)
+);
+
+// Final Project Enhancement
 router.get(
   '/delete-classification/:classificationId',
   utilities.handleErrors(invController.showDeleteClassification)
