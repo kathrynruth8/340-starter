@@ -93,6 +93,36 @@ async function addInventory(data) {
     return null;
   }
 }
+/* ***************************
+ *  Get classification to delete
+ * ************************** */
+async function getClassificationById(id) {
+  try {
+    const result = await pool.query(
+      'SELECT * FROM classification WHERE classification_id = $1',
+      [id]
+    );
+    return result.rows[0];
+  } catch (err) {
+    console.error('getClassificationById error', err);
+    return null;
+  }
+}
+/* ***************************
+ *  Delete classification
+ * ************************** */
+async function deleteClassificationById(id) {
+  try {
+    const result = await pool.query(
+      'DELETE FROM classification WHERE classification_id = $1',
+      [id]
+    );
+    return result.rowCount > 0;
+  } catch (err) {
+    console.error('deleteClassificationById error', err);
+    return false;
+  }
+}
 
 module.exports = {
   getClassifications,
@@ -101,4 +131,6 @@ module.exports = {
   addClassification,
   checkExistingClassification,
   addInventory,
+  getClassificationById,
+  deleteClassificationById,
 };

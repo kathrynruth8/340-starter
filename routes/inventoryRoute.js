@@ -50,4 +50,14 @@ router.post(
   utilities.handleErrors(invController.addInventory)
 );
 
+router.get(
+  '/delete-classification/:classificationId',
+  utilities.handleErrors(invController.showDeleteClassification)
+);
+
+router.post(
+  '/delete-classification/:classificationId',
+  utilities.handleErrors(invController.deleteClassification)
+);
+
 module.exports = router;

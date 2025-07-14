@@ -1,0 +1,31 @@
+<h1>Delete Classification</h1>
+
+<% if (message) { %>
+<p class="flash-message"><%= message %></p>
+<% } %>
+
+<p>
+  Are you sure you want to delete the classification:
+  <strong><%= classification.classification_name %></strong>?
+</p>
+
+<% if (inventory && inventory.length > 0) { %>
+<p>
+  This classification is associated with the following vehicles and
+  <strong>cannot be deleted</strong>:
+</p>
+<ul>
+  <% inventory.forEach(item => { %>
+  <li><%= item.inv_make %> <%= item.inv_model %></li>
+  <% }); %>
+</ul>
+<a href="/inv/">Back to Management</a>
+<% } else { %>
+<form
+  method="POST"
+  action="/inv/delete-classification/<%= classification.classification_id %>"
+>
+  <button type="submit">Yes, Delete</button>
+  <a href="/inv/">Cancel</a>
+</form>
+<% } %>

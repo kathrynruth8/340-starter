@@ -10,3 +10,20 @@
   <li><a href="/inv/add-classification">Add New Classification</a></li>
   <li><a href="/inv/add-inventory">Add New Inventory</a></li>
 </ul>
+
+<h2>Delete a Classification</h2>
+<p>Select a classification to delete:</p>
+
+<ul>
+  <% if (classificationList && classificationList.length > 0) { %> <%
+  classificationList.forEach(classification => { %>
+  <li>
+    <%= classification.classification_name %> -
+    <a href="/inv/delete-classification/<%= classification.classification_id %>"
+      >Delete</a
+    >
+  </li>
+  <% }) %> <% } else { %>
+  <li>No classifications available.</li>
+  <% } %>
+</ul>

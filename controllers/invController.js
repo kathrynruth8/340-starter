@@ -48,19 +48,17 @@ invCont.buildDetailView = async function (req, res, next) {
 };
 
 // Show inventory management view
-invCont.buildManagement = async (req, res, next) => {
-  try {
-    const nav = await utilities.getNav(); // ✅ GET NAVIGATION DATA
+invCont.buildManagement = async (req, res) => {
+  const nav = await utilities.getNav();
+  const classificationsData = await invModel.getClassifications();
+  const classificationList = classificationsData.rows;
 
-    res.render('inventory/management', {
-      title: 'Inventory Management',
-      message: req.flash('message'),
-      nav, // ✅ PASS IT IN
-    });
-  } catch (err) {
-    console.error('>>> Error in buildManagement:', err);
-    next(err);
-  }
+  res.render('inventory/management', {
+    title: 'Inventory Management',
+    nav,
+    message: req.flash('message'),
+    classificationList,
+  });
 };
 
 invCont.buildAddClassification = async (req, res) => {
@@ -80,14 +78,20 @@ invCont.addClassification = async (req, res) => {
 
   if (addResult) {
     req.flash('message', `${classification_name} added successfully.`);
-    const nav = await utilities.getNav(); // Rebuild nav with new item
+
+    const nav = await utilities.getNav(); // ✅ Rebuild nav
+    const classificationsData = await invModel.getClassifications(); // ✅ Get updated classifications
+    const classificationList = classificationsData.rows; // ✅ Define classificationList
+
     res.render('inventory/management', {
       title: 'Inventory Management',
       nav,
+      classificationList,
       message: req.flash('message'),
     });
   } else {
     const nav = await utilities.getNav();
+
     res.render('inventory/add-classification', {
       title: 'Add Classification',
       nav,
@@ -167,6 +171,60 @@ invCont.addInventory = async (req, res) => {
       ...req.body,
     });
   }
+};
+
+invCont.showDeleteClassification = async (req, res) => {
+  const classification_id = req.params.classificationId;
+  const nav = await utilities.getNav();
+  const classification = await invModel.getClassificationById(
+    classification_id
+  );
+  const inventory = await invModel.getInventoryByClassificationId(
+    classification_id
+  );
+
+  // Fetch all classifications for the sidebar or navigation list if needed
+  const classificationsData = await invModel.getClassifications();
+  const classificationList = classificationsData.rows;
+
+  if (!classification) {
+    req.flash('message', 'Classification not found.');
+    return res.redirect('/inv/');
+  }
+
+  res.render('inventory/delete-classification', {
+    title: 'Delete Classification',
+    nav,
+    classification,
+    inventory: inventory || [],
+    classificationList, // <-- now properly defined
+    message: req.flash('message'),
+  });
+};
+
+// Process deletion
+invCont.deleteClassification = async (req, res) => {
+  const classification_id = req.params.classificationId;
+  const inventory = await invModel.getInventoryByClassificationId(
+    classification_id
+  );
+
+  if (inventory.length > 0) {
+    req.flash(
+      'message',
+      'Cannot delete classification with associated inventory.'
+    );
+    return res.redirect(`/inv/delete-classification/${classification_id}`);
+  }
+
+  const deleted = await invModel.deleteClassificationById(classification_id);
+  if (deleted) {
+    req.flash('message', 'Classification deleted successfully.');
+  } else {
+    req.flash('message', 'Deletion failed.');
+  }
+
+  res.redirect('/inv/');
 };
 
 module.exports = invCont;
