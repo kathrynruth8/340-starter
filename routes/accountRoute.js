@@ -35,4 +35,11 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 );
 
+// Update account
+router.get(
+  '/update/:account_id',
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildUpdateAccountView)
+);
+
 module.exports = router;

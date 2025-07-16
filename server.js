@@ -52,6 +52,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(utilities.checkJWTToken);
+app.use(utilities.checkLoginStatus);
 
 /* ***********************
  * View Engine Templates

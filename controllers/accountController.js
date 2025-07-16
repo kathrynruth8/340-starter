@@ -119,6 +119,15 @@ async function accountLogin(req, res) {
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
       delete accountData.account_password;
+
+      // Save to session
+      req.session.accountData = {
+        account_id: accountData.account_id,
+        account_firstname: accountData.account_firstname,
+        account_lastname: accountData.account_lastname,
+        account_email: accountData.account_email,
+        account_type: accountData.account_type,
+      };
       const accessToken = jwt.sign(
         accountData,
         process.env.ACCESS_TOKEN_SECRET,
@@ -149,10 +158,24 @@ async function accountLogin(req, res) {
   }
 }
 
+async function buildUpdateAccountView(req, res) {
+  let nav = await utilities.getNav();
+  const account_id = parseInt(req.params.account_id);
+  const accountData = await accountModel.getAccountById(account_id);
+
+  res.render('account/update-account', {
+    title: 'Update Account',
+    nav,
+    errors: null,
+    accountData,
+  });
+}
+
 module.exports = {
   buildLogin,
   buildRegister,
   buildAccountManagement,
   registerAccount,
   accountLogin,
+  buildUpdateAccountView,
 };

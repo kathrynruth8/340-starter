@@ -172,6 +172,34 @@ Util.checkLogin = (req, res, next) => {
   }
 };
 
+/**
+ * Middleware to inject login data from session into all views
+ */
+Util.checkLoginStatus = (req, res, next) => {
+  if (req.session.accountData) {
+    res.locals.accountData = req.session.accountData;
+    res.locals.loggedin = true;
+  } else {
+    res.locals.loggedin = false;
+  }
+  next();
+};
+
+// middleware to check if user is Admin or Employee
+Util.checkEmployeeOrAdmin = (req, res, next) => {
+  const account = res.locals.accountData;
+
+  if (
+    res.locals.loggedin &&
+    (account.account_type === 'Employee' || account.account_type === 'Admin')
+  ) {
+    return next(); // allow access
+  }
+
+  req.flash('notice', 'You must be an employee or admin to access that page.');
+  return res.redirect('/account/login');
+};
+
 module.exports = { handleErrors };
 
 module.exports = Util;

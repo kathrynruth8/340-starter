@@ -1,4 +1,14 @@
 <div class="header-container">
   <h1>CSE Motors</h1>
-  <a href="/account/login" class="account-link">My Account</a>
+
+  <% if (locals.accountData) { %>
+  <span
+    >Welcome <a href="/account/"><%= accountData.account_firstname %></a></span
+  >
+  <a href="/account/logout" title="Logout">Logout</a>
+  <% } else { %>
+  <a href="/account/login" class="account-link" title="My Account"
+    >My Account</a
+  >
+  <% } %>
 </div>

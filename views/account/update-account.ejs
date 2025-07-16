@@ -1,0 +1,39 @@
+<main>
+  <h2>Update Your Account</h2>
+  <form action="/account/update" method="post">
+    <label for="account_firstname">First Name:</label>
+    <input
+      type="text"
+      name="account_firstname"
+      id="account_firstname"
+      value="<%= accountData.account_firstname %>"
+      required
+    />
+
+    <label for="account_lastname">Last Name:</label>
+    <input
+      type="text"
+      name="account_lastname"
+      id="account_lastname"
+      value="<%= accountData.account_lastname %>"
+      required
+    />
+
+    <label for="account_email">Email:</label>
+    <input
+      type="email"
+      name="account_email"
+      id="account_email"
+      value="<%= accountData.account_email %>"
+      required
+    />
+
+    <input
+      type="hidden"
+      name="account_id"
+      value="<%= accountData.account_id %>"
+    />
+
+    <button type="submit">Update Info</button>
+  </form>
+</main>

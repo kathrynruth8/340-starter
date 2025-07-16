@@ -8,7 +8,9 @@ const invValidate = require('../utilities/inventory-validation');
 
 // // Route to inventory management view
 router.get('/', (req, res, next) => {
-  invController.buildManagement(req, res, next);
+  utilities.checkLogin,
+    utilities.checkEmployeeOrAdmin,
+    utilities.handleErrors(invController.buildManagement);
 });
 
 // Route to build inventory by classification view
@@ -26,25 +28,34 @@ router.get(
 // Show form
 router.get(
   '/add-classification',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.buildAddClassification)
 );
 
 // Handle form submission
 router.post(
   '/add-classification',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   classValidate.classificationRules(),
   classValidate.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
 );
 
 // TASK 3
+// Add Inventory
 router.get(
   '/add-inventory',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.buildAddInventory)
 );
 
 router.post(
   '/add-inventory',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   invValidate.inventoryRules(),
   invValidate.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
@@ -56,35 +67,51 @@ router.get(
   utilities.handleErrors(invController.getInventoryJSON)
 );
 
+// Edit Inventory
 router.get(
   '/edit/:inv_id',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.editInventoryView)
 );
 
 router.post(
   '/update/',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   invValidate.inventoryRules(),
   invValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
 );
 
-// Show the delete confirmation view
+// Delete Inventory
 router.get(
   '/delete/:inv_id',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.buildDeleteInventoryView)
 );
 
 // Handle the actual inventory deletion
-router.post('/delete', utilities.handleErrors(invController.deleteInventory));
+router.post(
+  '/delete',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
+  utilities.handleErrors(invController.deleteInventory)
+);
 
 // Final Project Enhancement
 router.get(
   '/delete-classification/:classificationId',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.showDeleteClassification)
 );
 
 router.post(
   '/delete-classification/:classificationId',
+  utilities.checkLogin,
+  utilities.checkEmployeeOrAdmin,
   utilities.handleErrors(invController.deleteClassification)
 );
 
