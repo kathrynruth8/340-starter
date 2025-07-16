@@ -68,6 +68,15 @@ router.post(
   utilities.handleErrors(invController.updateInventory)
 );
 
+// Show the delete confirmation view
+router.get(
+  '/delete/:inv_id',
+  utilities.handleErrors(invController.buildDeleteInventoryView)
+);
+
+// Handle the actual inventory deletion
+router.post('/delete', utilities.handleErrors(invController.deleteInventory));
+
 // Final Project Enhancement
 router.get(
   '/delete-classification/:classificationId',
