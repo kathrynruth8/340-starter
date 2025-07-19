@@ -72,6 +72,14 @@ app.get('/', utilities.handleErrors(baseController.buildHome));
 app.use('/inv', inventoryRoute);
 // Account routes
 app.use('/account', accountRoute);
+// cookie for logout
+app.use((req, res, next) => {
+  if (req.cookies.logoutMessage) {
+    req.flash('notice', req.cookies.logoutMessage);
+    res.clearCookie('logoutMessage'); // Clear it so it doesn't persist
+  }
+  next();
+});
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({ status: 404, message: 'Oops! We lost that page' });

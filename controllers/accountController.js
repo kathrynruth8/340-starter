@@ -247,12 +247,12 @@ const updatePassword = async (req, res) => {
  *  Process logout request
  * *************************************** */
 function logout(req, res) {
-  res.clearCookie('jwt', {
-    httpOnly: true,
-    secure: true,
+  req.flash('notice', 'You have been logged out.');
+  res.clearCookie('jwt');
+
+  req.session.destroy(() => {
+    res.redirect('/');
   });
-  req.flash('notice', 'You have successfully logged out.');
-  res.redirect('/');
 }
 
 module.exports = {
