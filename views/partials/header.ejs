@@ -1,7 +1,7 @@
 <div class="header-container">
   <h1>CSE Motors</h1>
 
-  <% if (locals.accountData) { %>
+  <% if (loggedin){ %>
   <span
     >Welcome <a href="/account/"><%= accountData.account_firstname %></a></span
   >

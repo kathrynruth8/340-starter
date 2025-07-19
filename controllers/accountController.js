@@ -170,6 +170,90 @@ async function buildUpdateAccountView(req, res) {
     accountData,
   });
 }
+/* ****************************************
+ *  show update form
+ * ************************************ */
+const buildUpdateAccount = async (req, res) => {
+  const account_id = parseInt(req.params.account_id);
+  const account = await accountModel.getAccountById(account_id);
+  const nav = await utilities.getNav();
+
+  res.render('account/update', {
+    title: 'Update Account Info',
+    nav,
+    errors: null,
+    ...account,
+  });
+};
+
+/* ****************************************
+ *  handle account update
+ * ************************************ */
+const updateAccount = async (req, res) => {
+  const { account_id, account_firstname, account_lastname, account_email } =
+    req.body;
+  const updateResult = await accountModel.updateAccount(
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email
+  );
+  const nav = await utilities.getNav();
+
+  if (updateResult) {
+    req.flash('notice', 'Account information updated.');
+    const account = await accountModel.getAccountById(account_id);
+    return res.render('account/management', {
+      title: 'Account Management',
+      nav,
+      accountData: account,
+      errors: null,
+    });
+  } else {
+    req.flash('notice', 'Account update failed.');
+    return res.redirect(`/account/update/${account_id}`);
+  }
+};
+
+/* ****************************************
+ *  handle password change
+ * ************************************ */
+const updatePassword = async (req, res) => {
+  const { account_id, account_password } = req.body;
+  const hashedPassword = await bcrypt.hash(account_password, 10);
+  const nav = await utilities.getNav();
+
+  const updateResult = await accountModel.updatePassword(
+    account_id,
+    hashedPassword
+  );
+  const account = await accountModel.getAccountById(account_id);
+
+  if (updateResult) {
+    req.flash('notice', 'Password updated.');
+    res.render('account/management', {
+      title: 'Account Management',
+      nav,
+      accountData: account,
+      errors: null,
+    });
+  } else {
+    req.flash('notice', 'Password update failed.');
+    res.redirect(`/account/update/${account_id}`);
+  }
+};
+
+/* ****************************************
+ *  Process logout request
+ * *************************************** */
+function logout(req, res) {
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    secure: true,
+  });
+  req.flash('notice', 'You have successfully logged out.');
+  res.redirect('/');
+}
 
 module.exports = {
   buildLogin,
@@ -178,4 +262,8 @@ module.exports = {
   registerAccount,
   accountLogin,
   buildUpdateAccountView,
+  buildUpdateAccount,
+  updateAccount,
+  updatePassword,
+  logout,
 };

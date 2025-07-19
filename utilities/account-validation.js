@@ -124,4 +124,71 @@ validate.checkLoginData = async (req, res, next) => {
   next();
 };
 
+validate.accountUpdateRules = () => {
+  return [
+    body('account_firstname')
+      .trim()
+      .notEmpty()
+      .withMessage('First name required.'),
+    body('account_lastname')
+      .trim()
+      .notEmpty()
+      .withMessage('Last name required.'),
+    body('account_email')
+      .trim()
+      .isEmail()
+      .withMessage('Valid email required.')
+      .custom(async (email, { req }) => {
+        const account = await accountModel.getAccountByEmail(email);
+        if (account && account.account_id != req.body.account_id) {
+          throw new Error('Email already in use.');
+        }
+      }),
+  ];
+};
+
+validate.checkAccountUpdateData = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const nav = await require('./index').getNav();
+    return res.render('account/update', {
+      title: 'Update Account Info',
+      nav,
+      errors,
+      ...req.body,
+    });
+  }
+  next();
+};
+
+validate.passwordRules = () => {
+  return [
+    body('account_password')
+      .trim()
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage(
+        'Password must be at least 12 characters and include uppercase, lowercase, number, and symbol.'
+      ),
+  ];
+};
+
+validate.checkPasswordData = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const nav = await require('./index').getNav();
+    return res.render('account/update', {
+      title: 'Update Account Info',
+      nav,
+      errors,
+      account_id: req.body.account_id,
+    });
+  }
+  next();
+};
 module.exports = validate;
