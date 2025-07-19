@@ -27,19 +27,28 @@ validate.registationRules = () => {
     // valid email is required and cannot already exist in the DB
     body('account_email')
       .trim()
-      .escape()
       .notEmpty()
+      .withMessage('Email is required.')
+      .bail()
       .isEmail()
-      .normalizeEmail() // refer to validator.js docs
       .withMessage('A valid email is required.')
-      .custom(async (account_email) => {
-        const emailExists = await accountModel.checkExistingEmail(
-          account_email
+      .bail()
+      .custom(async (email, { req }) => {
+        // Normalize manually (like .normalizeEmail()) to make sure comparison is reliable
+        const normalizedEmail = email.toLowerCase().trim();
+
+        const existingAccount = await accountModel.getAccountByEmail(
+          normalizedEmail
         );
-        if (emailExists) {
-          throw new Error('Email exists. Please log in or use different email');
+        if (
+          existingAccount &&
+          existingAccount.account_id != req.body.account_id
+        ) {
+          throw new Error('Email already in use');
         }
-      }),
+        return true;
+      })
+      .normalizeEmail(), // apply after validation
 
     // password is required and must be strong password
     body('account_password')

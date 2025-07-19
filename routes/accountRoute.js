@@ -42,13 +42,6 @@ router.get(
   utilities.handleErrors(accountController.buildUpdateAccountView)
 );
 
-// Show account update form
-router.get(
-  '/update/:account_id',
-  utilities.checkLogin,
-  utilities.handleErrors(accountController.buildUpdateAccount)
-);
-
 // Handle account info update (first name, last name, email)
 router.post(
   '/update-account',

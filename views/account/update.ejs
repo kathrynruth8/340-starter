@@ -11,14 +11,14 @@
 
   <section>
     <h2>Update Account Information</h2>
-    <form action="/account/update" method="post">
+    <form action="/account/update-account" method="post">
       <label for="account_firstname">First Name:</label>
       <input
         type="text"
         id="account_firstname"
         name="account_firstname"
         required
-        value="<%= locals.account_firstname || '' %>"
+        value="<%= accountData.account_firstname || '' %>"
       />
 
       <label for="account_lastname">Last Name:</label>
@@ -27,7 +27,7 @@
         id="account_lastname"
         name="account_lastname"
         required
-        value="<%= locals.account_lastname || '' %>"
+        value="<%= accountData.account_lastname || '' %>"
       />
 
       <label for="account_email">Email:</label>
@@ -36,11 +36,11 @@
         id="account_email"
         name="account_email"
         required
-        value="<%= locals.account_email || '' %>"
+        value="<%= accountData.account_email || '' %>"
       />
 
       <!-- Hidden account_id -->
-      <input type="hidden" name="account_id" value="<%= locals.account_id %>" />
+      <input type="hidden" name="account_id" value="<%= accountData.account_id %>" />
 
       <button type="submit">Update Info</button>
     </form>
@@ -55,7 +55,7 @@
       <input type="password" id="account_password" name="account_password" required>
 
       <!-- Hidden account_id -->
-      <input type="hidden" name="account_id" value="<%= locals.account_id %>">
+      <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
 
       <button type="submit">Change Password</button>
     </form>

@@ -6,12 +6,13 @@ const utilities = require('../utilities');
 const classValidate = require('../utilities/classification-validation');
 const invValidate = require('../utilities/inventory-validation');
 
-// // Route to inventory management view
-router.get('/', (req, res, next) => {
+// Route to inventory management view
+router.get(
+  '/',
   utilities.checkLogin,
-    utilities.checkEmployeeOrAdmin,
-    utilities.handleErrors(invController.buildManagement);
-});
+  utilities.checkEmployeeOrAdmin,
+  utilities.handleErrors(invController.buildManagement)
+);
 
 // Route to build inventory by classification view
 router.get(

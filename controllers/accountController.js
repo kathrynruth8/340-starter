@@ -163,7 +163,7 @@ async function buildUpdateAccountView(req, res) {
   const account_id = parseInt(req.params.account_id);
   const accountData = await accountModel.getAccountById(account_id);
 
-  res.render('account/update-account', {
+  res.render('account/update', {
     title: 'Update Account',
     nav,
     errors: null,
